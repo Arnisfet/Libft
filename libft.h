@@ -45,5 +45,6 @@ char	**ft_split(char const *s, char c);
 size_t	ft_count_words(const char *s, char c);
 char	*ft_mystrncpy(char *dst, const char *src, size_t len);
 char	*ft_strndup(char const *s, size_t n);
+int		ft_strcmp(const char *str1, const char *str2);
 
 #endif //SCHOOLLIB_LIBFT_H
