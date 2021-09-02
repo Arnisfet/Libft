@@ -4,7 +4,7 @@
 //Функция ищет последний входящий байт равный ch, работает как strchr.
 #include "libft.h"
 
-char	*ft_strrchr (const char *str, int ch)
+char	*ft_strrchr(const char *str, int ch)
 {
 	size_t	i;
 

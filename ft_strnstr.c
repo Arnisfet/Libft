@@ -6,7 +6,7 @@
 // указатель на начало совпадения, если не находит, то возвращает нулл.
 #include "libft.h"
 
-char	*ft_strnstr (const char *dst, const char *src, size_t n)
+char	*ft_strnstr(const char *dst, const char *src, size_t n)
 {
 	size_t	i;
 	size_t	j;

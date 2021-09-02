@@ -23,7 +23,7 @@ double	ft_atof(const char *str)
 		second_part /= 10;
 		len--;
 	}
-	if(first_part > 0)
+	if (first_part > 0)
 		return (first_part + second_part);
 	return (first_part - second_part);
 }
