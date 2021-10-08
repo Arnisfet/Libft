@@ -1,12 +1,26 @@
-//
-// Created by vitya on 23.04.2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrudge <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/08 18:55:20 by mrudge            #+#    #+#             */
+/*   Updated: 2021/10/08 18:55:22 by mrudge           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
 # include <stdlib.h>
 # include <unistd.h>
+
+typedef struct s_list
+{
+	void *content;
+	struct s_list *next;
+} t_list;
 
 void	*ft_memset(void *s1, int c, size_t n);
 void	ft_bzero(void *s, size_t n);
@@ -46,6 +60,13 @@ size_t	ft_count_words(const char *s, char c);
 char	*ft_mystrncpy(char *dst, const char *src, size_t len);
 char	*ft_strndup(char const *s, size_t n);
 int		ft_strcmp(const char *str1, const char *str2);
-double	ft_atof(const char *str);
+void	ft_striteri(char *s, void (*f)(unsigned int, char*));
+t_list	*ft_lstnew(void *content);
+void	ft_lstadd_front(t_list **lst, t_list *new);
+int		ft_lstsize(t_list *lst);
+t_list	*ft_lstlast(t_list *lst);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstdelone(t_list *lst, void (*del)(void *));
+void	ft_lstclear(t_list **lst, void (*del)(void *));
 
 #endif //SCHOOLLIB_LIBFT_H

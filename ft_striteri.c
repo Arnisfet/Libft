@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrudge <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/08 18:19:22 by mrudge            #+#    #+#             */
-/*   Updated: 2021/10/08 18:19:29 by mrudge           ###   ########.fr       */
+/*   Created: 2021/10/08 21:07:56 by mrudge            #+#    #+#             */
+/*   Updated: 2021/10/08 21:07:59 by mrudge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* Возвращает кодовый номер числa*/
-
-#include "libft.h"
-
-int	ft_isdigit(int ch)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	if (ch >= 48 && ch <= 57)
-		return (ch);
-	return (0);
+	unsigned int i;
+
+	i = 0;
+	if (!s || !f)
+		return ;
+	while (s[i])
+	{
+		f(i, s);
+		i++;
+		s++;
+	}
 }
