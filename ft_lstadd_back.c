@@ -1,17 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrudge <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/09 17:49:31 by mrudge            #+#    #+#             */
+/*   Updated: 2021/10/09 17:50:15 by mrudge           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/*Функция производит добавление элемента в конец лисат*/
+
 #include "libft.h"
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*temp;
 
-	if(lst)
+	if (!*lst)
+		*lst = new;
+	else
 	{
-		if (!*alst == NULL)
-			*alst = new;
-		else
-		{
-			temp = ft_lstlast(*lst);
-			temp->next = new;
-		}
+		temp = ft_lstlast(*lst);
+		temp->next = new;
 	}
 }

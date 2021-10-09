@@ -18,9 +18,9 @@
 
 typedef struct s_list
 {
-	void *content;
-	struct s_list *next;
-} t_list;
+	void			*content;
+	struct s_list	*next;
+}	t_list;
 
 void	*ft_memset(void *s1, int c, size_t n);
 void	ft_bzero(void *s, size_t n);
@@ -56,8 +56,6 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_putnbr_fd(int n, int fd);
 char	**ft_split(char const *s, char c);
-size_t	ft_count_words(const char *s, char c);
-char	*ft_mystrncpy(char *dst, const char *src, size_t len);
 char	*ft_strndup(char const *s, size_t n);
 int		ft_strcmp(const char *str1, const char *str2);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
@@ -68,5 +66,7 @@ t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
+void	ft_lstiter(t_list *lst, void (*f)(void *));
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-#endif //SCHOOLLIB_LIBFT_H
+#endif

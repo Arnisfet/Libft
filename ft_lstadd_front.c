@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrudge <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/09 17:50:28 by mrudge            #+#    #+#             */
+/*   Updated: 2021/10/09 17:51:25 by mrudge           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/*Функция добавляет новый элемент в начало листа*/
+
 #include "libft.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *new);
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	if (*lst && new)
-	{
-		new->next = *lst;
-		*lst = new;
-	}
+	if (!lst || !new)
+		return ;
+	new->next = *lst;
+	*lst = new;
 }

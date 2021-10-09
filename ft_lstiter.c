@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrudge <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/08 18:27:25 by mrudge            #+#    #+#             */
-/*   Updated: 2021/10/08 18:27:27 by mrudge           ###   ########.fr       */
+/*   Created: 2021/10/09 17:53:23 by mrudge            #+#    #+#             */
+/*   Updated: 2021/10/09 17:54:03 by mrudge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*Функция производит действие с каждым элементом листа с помощью др. ф.*/
+
 #include "libft.h"
 
-int	ft_strcmp(const char *str1, const char *str2)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	int		i;
-	char	*s1;
-	char	*s2;
+	t_list	*temp;
 
-	i = 0;
-	s1 = (char *)str1;
-	s2 = (char *)str2;
-	while (s1[i] == s2[i] && s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	temp = lst;
+	while (temp)
+	{
+		f(temp->content);
+		temp = temp->next;
+	}
 }

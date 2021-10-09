@@ -22,49 +22,88 @@ Use function: ft_count_words - подсчет слов; ft_strndup - выдел�
 
 #include "libft.h"
 
-static char	**ft_free(char **arr)
+static int	ft_count_words(char const *s, char c)
+{
+	int		i;
+	size_t	word_counter;
+
+	i = 0;
+	word_counter = 0;
+	while (s[i])
+	{
+		while (s[i] && s[i] == c)
+			i++;
+		if (s[i])
+			word_counter++;
+		while (s[i] && s[i] != c)
+			i++;
+	}
+	return (word_counter);
+}
+
+static char	**ft_memfree(char **res)
 {
 	int	i;
 
 	i = 0;
-	if (arr[i])
+	if (res[i])
 	{
-		while (arr[i])
+		while (res[i])
 		{
-			free(arr[i]);
-			arr[i] = NULL;
+			free(res[i]);
+			res[i] = NULL;
 			i++;
 		}
-		free(arr);
-		arr = NULL;
+		free(res);
+		res = NULL;
+	}
+	return (NULL);
+}
+
+static char	*ft_create_word(char const *s, size_t d)
+{
+	size_t	i;
+	char	*word;
+
+	i = 0;
+	word = (char *)malloc(sizeof(char) * (d + 1));
+	if (word)
+	{
+		while (s[i] && i < d)
+		{
+			word[i] = s[i];
+			i++;
+		}
+		word[i] = '\0';
+		return (word);
 	}
 	return (NULL);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	size_t	counter;
-	char	**arr_2;
-	int		len;
-	int		len_s;
+	char	**res;
+	size_t	i;
+	size_t	del;
+	size_t	size;
 
-	len = 0;
-	counter = ft_count_words(s, c);
-	arr_2 = (char **) malloc(sizeof(char *) * (counter + 1));
-	if (!arr_2)
+	i = 0;
+	size = ft_count_words(s, c);
+	res = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!res)
 		return (NULL);
-	while (s[len])
+	while (s[i])
 	{
-		while (s[len] == c)
-			len++;
-		len_s = len;
-		while (s[len] && s[len] != c)
-			len++;
-		if (len > len_s)
-			*arr_2++ = ft_strndup(&s[len_s], (len - len_s));
-		if (!*arr_2)
-			return (ft_free(arr_2));
+		while (s[i] == c)
+			i++;
+		del = i;
+		while (s[i] && s[i] != c)
+			i++;
+		if (del < i)
+			*res++ = ft_create_word(s + del, i - del);
+		if (!ft_create_word(s + del, i - del))
+			return (ft_memfree(res));
 	}
-	*arr_2 = (NULL);
-	return (arr_2 - counter);
+	*res = NULL;
+	return (res - size);
 }
