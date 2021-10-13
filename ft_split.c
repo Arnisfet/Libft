@@ -20,90 +20,66 @@ return: Указатель на начало массива arr_2 (arr_2 - massi
 Use function: ft_count_words - подсчет слов; ft_strndup - выделение памяти
 для н символов.*/
 
+
 #include "libft.h"
 
-static int	ft_count_words(char const *s, char c)
+static size_t		word_count(char const *s, char c)
 {
-	int		i;
-	size_t	word_counter;
+	size_t		ret;
+	int			i;
 
+	ret = 0;
 	i = 0;
-	word_counter = 0;
-	while (s[i])
+	while (s[i] != '\0')
 	{
-		while (s[i] && s[i] == c)
+		if (s[i] == c)
 			i++;
-		if (s[i])
-			word_counter++;
-		while (s[i] && s[i] != c)
-			i++;
+		else
+		{
+			ret++;
+			while (s[i] != '\0' && s[i] != c)
+				i++;
+		}
 	}
-	return (word_counter);
+	return (ret);
 }
 
-static char	**ft_memfree(char **res)
+static char	**free_tab(char **tab)
 {
 	int	i;
 
 	i = 0;
-	if (res[i])
-	{
-		while (res[i])
-		{
-			free(res[i]);
-			res[i] = NULL;
-			i++;
-		}
-		free(res);
-		res = NULL;
-	}
+	while (tab[i] != NULL)
+		free(tab[i++]);
+	if (tab)
+		free(tab);
 	return (NULL);
 }
 
-static char	*ft_create_word(char const *s, size_t d)
+char		**ft_split(char const *s, char c)
 {
-	size_t	i;
-	char	*word;
+	char		**tab;
+	char		*curr;
+	char		*delim;
+	size_t		i;
 
 	i = 0;
-	word = (char *)malloc(sizeof(char) * (d + 1));
-	if (word)
-	{
-		while (s[i] && i < d)
-		{
-			word[i] = s[i];
-			i++;
-		}
-		word[i] = '\0';
-		return (word);
-	}
-	return (NULL);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	char	**res;
-	size_t	i;
-	size_t	del;
-	size_t	size;
-
-	i = 0;
-	size = ft_count_words(s, c);
-	res = (char **)malloc(sizeof(char *) * (size + 1));
-	if (!res)
+	if (!s || (tab = ft_calloc(word_count(s, c) + 1, sizeof(char *))) == NULL)
 		return (NULL);
-	while (s[i])
+	curr = (char *)s;
+	while (*curr == c)
+		curr++;
+	while ((delim = ft_strchr(curr, c)) && i < word_count(s, c))
 	{
-		while (s[i] == c)
-			i++;
-		del = i;
-		while (s[i] && s[i] != c)
-			i++;
-		if (del < i)
-			*res++ = ft_create_word(s + del, i - del);
-		if (!ft_create_word(s + del, i - del))
-			return (ft_memfree(res));
+		if ((tab[i] = ft_substr(curr, 0, delim - curr)) == NULL)
+			return (free_tab(tab));
+		i++;
+		curr = delim;
+		while (*curr == c)
+			curr++;
 	}
-	*res = NULL;
-	return (res - size);
+	if (delim == NULL && *curr != '\0')
+		if ((tab[i] = ft_substr(curr, 0, ft_strlen(curr))) == NULL)
+			return (free_tab(tab));
+		return (tab);
 }

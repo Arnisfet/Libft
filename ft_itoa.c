@@ -32,6 +32,16 @@ static int	counter_and_minus(int n)
 	return (len);
 }
 
+static void	writer(int n, char *arr, int len_arr)
+{
+	while (n)
+	{
+		arr[len_arr - 1] = (n % 10) + '0';
+		n /= 10;
+		len_arr--;
+	}
+}
+
 char	*ft_itoa(int n)
 {
 	int		len_arr;
@@ -51,11 +61,7 @@ char	*ft_itoa(int n)
 			n = -n;
 		}
 		arr[len_arr] = '\0';
-		while (n)
-		{
-			arr[len_arr - 1] = (n % 10) + '0';
-			n /= 10, len_arr--;
-		}
+		writer(n, arr, len_arr);
 		return (arr);
 	}
 	return (NULL);
