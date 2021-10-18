@@ -6,7 +6,7 @@
 /*   By: mrudge <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 18:26:26 by mrudge            #+#    #+#             */
-/*   Updated: 2021/10/08 18:26:29 by mrudge           ###   ########.fr       */
+/*   Updated: 2021/10/18 16:05:23 by mrudge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,72 +14,93 @@
 разделительного символа с. Создает массив указателей куда записывается
 каждое слово по отдельности.
 
-return: Указатель на начало массива arr_2 (arr_2 - massiv) сделано для
-возрата к нулевому указателю, так как запись идет по адресам.
+place - указатель на точку входа записи в строке;
+i - указатель на точку выхода записи в строке;
 
-Use function: ft_count_words - подсчет слов; ft_strndup - выделение памяти
-для н символов.*/
-
+Use function: ft_count - подсчет слов*/
 
 #include "libft.h"
 
-static size_t		word_count(char const *s, char c)
-{
-	size_t		ret;
-	int			i;
-
-	ret = 0;
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == c)
-			i++;
-		else
-		{
-			ret++;
-			while (s[i] != '\0' && s[i] != c)
-				i++;
-		}
-	}
-	return (ret);
-}
-
-static char	**free_tab(char **tab)
+static char	**ft_free(char **arr)
 {
 	int	i;
 
 	i = 0;
-	while (tab[i] != NULL)
-		free(tab[i++]);
-	if (tab)
-		free(tab);
+	if (arr[i])
+	{
+		while (arr[i])
+		{
+			free(arr[i]);
+			arr[i] = NULL;
+			i++;
+		}
+		free(arr);
+		arr = NULL;
+	}
 	return (NULL);
 }
 
-char		**ft_split(char const *s, char c)
+static int	ft_count(const char *s, char c)
 {
-	char		**tab;
-	char		*curr;
-	char		*delim;
-	size_t		i;
+	size_t	i;
+	int		counter;
 
 	i = 0;
-	if (!s || (tab = ft_calloc(word_count(s, c) + 1, sizeof(char *))) == NULL)
-		return (NULL);
-	curr = (char *)s;
-	while (*curr == c)
-		curr++;
-	while ((delim = ft_strchr(curr, c)) && i < word_count(s, c))
+	counter = 0;
+	while (s[i] != '\0')
 	{
-		if ((tab[i] = ft_substr(curr, 0, delim - curr)) == NULL)
-			return (free_tab(tab));
-		i++;
-		curr = delim;
-		while (*curr == c)
-			curr++;
+		while (s[i] == c)
+			i++;
+		if (s[i] != '\0')
+			counter++;
+		while ((s[i] != '\0') && (s[i] != c))
+			i++;
 	}
-	if (delim == NULL && *curr != '\0')
-		if ((tab[i] = ft_substr(curr, 0, ft_strlen(curr))) == NULL)
-			return (free_tab(tab));
-		return (tab);
+	return (counter);
+}
+
+static char	*ft_copy(const char *str, size_t n)
+{
+	char	*new;
+	size_t	i;
+
+	new = (char *)malloc(sizeof(char) * (n + 1));
+	if (new == NULL)
+		return (NULL);
+	i = 0;
+	while ((str[i] != '\0') && (i < n))
+	{
+		new[i] = str[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**new;
+	size_t	i;
+	size_t	place;
+	int		word;
+
+	new = (char **)malloc(sizeof(char *) * (ft_count(s, c) + 1));
+	if (new == NULL)
+		return (NULL);
+	i = 0;
+	word = 0;
+	while (s[i] != '\0')
+	{
+		while (s[i] == c)
+			i++;
+		place = i;
+		while ((s[i] != '\0') && (s[i] != c))
+			i++;
+		if (place < i)
+			new[word++] = ft_copy(s + place, i - place);
+		if (!new[word - 1])
+			ft_free((char **) new);
+	}
+	new[word] = NULL;
+	return (new);
 }
